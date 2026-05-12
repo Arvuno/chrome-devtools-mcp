@@ -169,6 +169,12 @@ export const cliOptions = {
     type: 'boolean',
     describe: 'Whether to output structured formatted content.',
   },
+  experimentalStructuredContentFormat: {
+    type: 'string',
+    describe: 'The format of the structured content. Defaults to "json".',
+    choices: ['toon', 'json'] as const,
+    hidden: true,
+  },
   experimentalIncludeAllPages: {
     type: 'boolean',
     describe:
@@ -293,7 +299,7 @@ export function parseArguments(
   const yargsInstance = yargs(hideBin(argv))
     .scriptName('npx chrome-devtools-mcp@latest')
     .options(cliOptions)
-    .check(args => {
+    .middleware(args => {
       // We can't set default in the options else
       // Yargs will complain
       if (
@@ -309,6 +315,19 @@ export function parseArguments(
           "turning off usage statistics. process.env['CI'] || process.env['CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS'] is set.",
         );
         args.usageStatistics = false;
+      }
+      if (args.experimentalStructuredContentFormat && args.experimentalStructuredContent === undefined) {
+        args.experimentalStructuredContent = true;
+      }
+      if (args.experimentalStructuredContentFormat === undefined && args.experimentalStructuredContent) {
+        args.experimentalStructuredContentFormat = 'json';
+      }
+    })
+    .check(args => {
+      if (args.experimentalStructuredContentFormat && !args.experimentalStructuredContent) {
+        throw new Error(
+          'The --experimentalStructuredContentFormat option can only be used when --experimentalStructuredContent is enabled.'
+        );
       }
       return true;
     })
