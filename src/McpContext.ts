@@ -20,22 +20,24 @@ import {
   type ListenerMap,
   type UncaughtError,
 } from './PageCollector.js';
-import {
-  Locator,
-  PredefinedNetworkConditions,
-  type Browser,
-  type BrowserContext,
-  type ConsoleMessage,
-  type Debugger,
-  type HTTPRequest,
-  type Page,
-  type ScreenRecorder,
-  type Viewport,
-  type Target,
-  type Extension,
-  type Root,
-  type DevTools,
+import {ServiceWorkerConsoleCollector} from './ServiceWorkerCollector.js';
+import type {DevTools} from './third_party/index.js';
+import type {
+  Browser,
+  BrowserContext,
+  ConsoleMessage,
+  Debugger,
+  HTTPRequest,
+  Page,
+  ScreenRecorder,
+  SerializedAXNode,
+  Viewport,
+  Target,
+  Extension,
 } from './third_party/index.js';
+import type {DevTools} from './third_party/index.js';
+import {Locator} from './third_party/index.js';
+import {PredefinedNetworkConditions} from './third_party/index.js';
 import {listPages} from './tools/pages.js';
 import {CLOSE_PAGE_ERROR} from './tools/ToolDefinition.js';
 import type {Context, SupportedExtensions} from './tools/ToolDefinition.js';
@@ -77,6 +79,7 @@ export class McpContext implements Context {
   #networkCollector: NetworkCollector;
   #consoleCollector: ConsoleCollector;
   #devtoolsUniverseManager: UniverseManager;
+  #serviceWorkerConsoleCollector: ServiceWorkerConsoleCollector;
 
   #isRunningTrace = false;
   #screenRecorderData: {recorder: ScreenRecorder; filePath: string} | null =
@@ -121,21 +124,26 @@ export class McpContext implements Context {
         },
       } as ListenerMap;
     });
+    this.#serviceWorkerConsoleCollector = new ServiceWorkerConsoleCollector(
+      this.browser,
+    );
     this.#devtoolsUniverseManager = new UniverseManager(this.browser);
   }
 
   async #init() {
     const pages = await this.createPagesSnapshot();
-    await this.createExtensionServiceWorkersSnapshot();
+    const workers = await this.createExtensionServiceWorkersSnapshot();
     await this.#networkCollector.init(pages);
     await this.#consoleCollector.init(pages);
     await this.#devtoolsUniverseManager.init(pages);
+    await this.#serviceWorkerConsoleCollector.init(workers);
   }
 
   dispose() {
     this.#networkCollector.dispose();
     this.#consoleCollector.dispose();
     this.#devtoolsUniverseManager.dispose();
+    this.#serviceWorkerConsoleCollector.dispose();
     for (const mcpPage of this.#mcpPages.values()) {
       mcpPage.dispose();
     }
@@ -522,6 +530,12 @@ export class McpContext implements Context {
     });
 
     return this.#extensionServiceWorkers;
+  }
+
+  getServiceWorkerConsoleData(
+    extensionId: string,
+  ): Array<ConsoleMessage | UncaughtError> {
+    return this.#serviceWorkerConsoleCollector.getData(extensionId);
   }
 
   async createPagesSnapshot(): Promise<Page[]> {
