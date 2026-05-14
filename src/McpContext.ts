@@ -34,8 +34,8 @@ import type {
   Viewport,
   Target,
   Extension,
+  Root,
 } from './third_party/index.js';
-import type {DevTools} from './third_party/index.js';
 import {Locator} from './third_party/index.js';
 import {PredefinedNetworkConditions} from './third_party/index.js';
 import {listPages} from './tools/pages.js';
