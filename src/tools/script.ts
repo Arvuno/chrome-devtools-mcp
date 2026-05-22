@@ -18,7 +18,9 @@ export const evaluateScript = defineTool(cliArgs => {
   return {
     name: 'evaluate_script',
     description: `Evaluate a JavaScript function inside the currently selected page${cliArgs?.categoryExtensions ? ' or service worker' : ''}. Returns the response as JSON,
-so returned values have to be JSON-serializable.`,
+so returned values have to be JSON-serializable.
+
+Example: {"function": "() => document.title", "args": []} to get the page title.`,
     annotations: {
       category: ToolCategory.DEBUGGING,
       readOnlyHint: false,
