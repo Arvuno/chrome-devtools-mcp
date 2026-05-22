@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.1.0](https://github.com/ChromeDevTools/chrome-devtools-mcp/compare/chrome-devtools-mcp-v1.0.1...chrome-devtools-mcp-v1.1.0) (2026-05-22)
+
+
+### 🎉 Features
+
+* add extraHttpHeaders emulation to emulate tool ([#1176](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/1176)) ([6992106](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/6992106d1ca3bcd9390165035e7b0a3acb7e7317))
+* created cursor plugin.json setting file with release auto versioning ([#2091](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2091)) ([10c8205](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/10c82055d82eda9e7f229f8ddf3b8770a8732aa7))
+
+
+### 🛠️ Fixes
+
+* Apply CPU throttling to secondary CDP session ([#2092](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2092)) ([3ade962](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/3ade962a8da6b100800304146dc3e50e6419a6ee))
+* Fix throttling info in performance trace output ([#2096](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2096)) ([57f32b0](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/57f32b0cd4afe1775b96ba35c27f25d6f0770331))
+* make pageId required ([#2084](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2084)) ([d751693](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/d751693d887fae4ef7a1e7204545192322cf7820)), closes [#2052](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2052)
+* remove duplicate .mcp.json ([#2095](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2095)) ([dbf6ba9](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/dbf6ba93746c4975fc1ed385a8bf0f6395a9a79e))
+
+
+### 📄 Documentation
+
+* align coding agent examples with Antigravity ([#2094](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2094)) ([ce31594](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/ce31594d6c9614c63a93cd7abddf4522a4c4a053))
+* fix installation instructions for VS Code ([#2087](https://github.com/ChromeDevTools/chrome-devtools-mcp/issues/2087)) ([9f47df3](https://github.com/ChromeDevTools/chrome-devtools-mcp/commit/9f47df36847cd69b99873709e7ed3936347b648e))
+
 ## [1.0.1](https://github.com/ChromeDevTools/chrome-devtools-mcp/compare/chrome-devtools-mcp-v1.0.0...chrome-devtools-mcp-v1.0.1) (2026-05-18)
 
 
